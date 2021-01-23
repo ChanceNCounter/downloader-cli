@@ -260,12 +260,6 @@ class Download:
     def _get_speed_n_time(self, file_size_dl, beg_time, cur_time):
         """Return the speed and time depending on the passed arguments."""
 
-        # Sometimes the beg_time and the cur_time are same, so we need
-        # to make sure that doesn't raise a ZeroDivisionError in the
-        # following line.
-        if cur_time == beg_time:
-            return "Inf", "", 0, ""
-
         # Calculate speed
         speed = (file_size_dl / 1024) / (cur_time - beg_time)
 
@@ -364,6 +358,7 @@ class Download:
             block_sz = 8192
 
             beg_time = time.time()
+            time.sleep(0.00025)
             while True:
                 buffer = self.conn.read(block_sz)
                 if not buffer:
